@@ -14,7 +14,18 @@ const findOne = async (email) => {
     return rows[0];
 };
 
+const postOne = async ({ email, nombre, password, anos_experiencia, especialidad, foto }) => {
+    const query = {
+        text: "insert into skaters (email,nombre,password,anos_experiencia,especialidad,foto) values ($1,$2,$3,$4,$5,$6) returning email,nombre,anos_experiencia,especialidad,foto,estado",
+        values: [email, nombre, password, anos_experiencia, especialidad, foto],
+    };
+
+    const { rows } = await pool.query(query);
+    return rows[0];
+};
+
 export const Skaters = {
     getAll,
     findOne,
+    postOne,
 };
