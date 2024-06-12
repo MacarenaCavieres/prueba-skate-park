@@ -1,10 +1,10 @@
 import { Router } from "express";
+import { skatersController } from "../controllers/skaters.controller.js";
 
 const router = Router();
 
-router.get("/", (req, res) => {
-    res.render("home");
-});
+router.get("/", skatersController.getAllSkaters);
+
 router.get("/login", (req, res) => {
     res.render("login");
 });
