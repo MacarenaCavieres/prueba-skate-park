@@ -25,6 +25,9 @@ const postOneSkater = async (req, res) => {
     const { file } = req.files;
     const { email, nombre, password, repeat_password, anos_experiencia, especialidad } = req.body;
 
+    if (!email || !nombre || !password || !repeat_password || !anos_experiencia || !especialidad)
+        return res.status(400).json({ ok: false, msg: "Todos los campos obligatorios" });
+
     if (password !== repeat_password)
         return res.status(400).json({ ok: false, msg: "Contraseñas no coinciden" });
 
@@ -58,7 +61,36 @@ const postOneSkater = async (req, res) => {
 
         const token = generateToken(data.email);
 
-        return res.status(201).json({ ok: true, msg: "Usuario creado con éxito", Participante: data, token });
+        return res
+            .status(201)
+            .header("authorization", token)
+            .json({ ok: true, msg: "Usuario creado con éxito", participante: data, token });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ ok: false, msg: "Error de servidor" });
+    }
+};
+
+const getLogin = (req, res) => {
+    return res.render("login");
+};
+
+const postLogin = async (req, res) => {
+    const { email, password } = req.body;
+    if (!email || !password) res.status(400).json({ ok: false, msg: "Todos los campos obligatorios" });
+
+    try {
+        const skater = await Skaters.findOne(email);
+
+        if (!skater) return res.status(409).json({ ok: false, msg: "Usuario no encontrado" });
+
+        const match = await bcryptjs.compare(password, skater.password);
+
+        if (!match) return res.status(400).json({ ok: false, msg: "Usuario o contraseña incorrecta" });
+
+        const token = generateToken(skater.email);
+
+        return res.header("authorization", token).json({ ok: true, msg: "Usuario logeado con éxito", token });
     } catch (error) {
         console.error(error);
         return res.status(500).json({ ok: false, msg: "Error de servidor" });
@@ -69,4 +101,6 @@ export const skatersController = {
     getAllSkaters,
     getRegistro,
     postOneSkater,
+    getLogin,
+    postLogin,
 };
