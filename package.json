@@ -1,19 +1,21 @@
 {
-  "name": "prueba-skate-park",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "author": "MacarenaCavieres",
-  "license": "ISC",
-  "dependencies": {
-    "dotenv": "^16.4.5",
-    "express": "^4.19.2",
-    "express-fileupload": "^1.5.0",
-    "express-handlebars": "^7.1.2",
-    "pg": "^8.12.0"
-  }
+    "name": "prueba-skate-park",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "type": "module",
+    "scripts": {
+        "start": "node index.js",
+        "dev": "node --watch index.js"
+    },
+    "keywords": [],
+    "author": "MacarenaCavieres",
+    "license": "ISC",
+    "dependencies": {
+        "dotenv": "^16.4.5",
+        "express": "^4.19.2",
+        "express-fileupload": "^1.5.0",
+        "express-handlebars": "^7.1.2",
+        "pg": "^8.12.0"
+    }
 }
