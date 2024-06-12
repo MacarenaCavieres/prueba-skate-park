@@ -3,6 +3,10 @@ import bcryptjs from "bcryptjs";
 import { Skaters } from "../models/skater.model.js";
 import { generateToken } from "../utils/file.config.js";
 
+import jwt from "jsonwebtoken";
+import "dotenv/config";
+const secretKey = process.env.SK;
+
 const __dirname = import.meta.dirname;
 const pathFile = path.join(__dirname, "../public/assets/imgs");
 
@@ -90,7 +94,38 @@ const postLogin = async (req, res) => {
 
         const token = generateToken(skater.email);
 
-        return res.header("authorization", token).json({ ok: true, msg: "Usuario logeado con éxito", token });
+        return res.header("authorization", token).json({
+            ok: true,
+            msg: "Usuario logeado con éxito",
+            token,
+            href: `http://localhost:3000/datos?token=${token}`,
+        });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ ok: false, msg: "Error de servidor" });
+    }
+};
+
+const getDatos = async (req, res) => {
+    try {
+        const skater = await Skaters.findOne(req.email);
+
+        return res.render("datos", { skater });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ ok: false, msg: "Error de servidor" });
+    }
+};
+
+const deleteOneSkater = async (req, res) => {
+    const { email } = req.body;
+
+    if (!email) return res.status(400).json({ ok: false, msg: "Falta campo email" });
+
+    try {
+        await Skaters.deleteOne(email);
+
+        return res.json({ ok: true, msg: "Registro eliminado con éxito" });
     } catch (error) {
         console.error(error);
         return res.status(500).json({ ok: false, msg: "Error de servidor" });
@@ -103,4 +138,6 @@ export const skatersController = {
     postOneSkater,
     getLogin,
     postLogin,
+    getDatos,
+    deleteOneSkater,
 };

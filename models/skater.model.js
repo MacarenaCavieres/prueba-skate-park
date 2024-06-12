@@ -24,8 +24,20 @@ const postOne = async ({ email, nombre, password, anos_experiencia, especialidad
     return rows[0];
 };
 
+const deleteOne = async (email) => {
+    const query = {
+        text: "delete from skaters where email = $1 returning *",
+        values: [email],
+    };
+
+    const { rows } = await pool.query(query);
+
+    return rows[0];
+};
+
 export const Skaters = {
     getAll,
     findOne,
     postOne,
+    deleteOne,
 };

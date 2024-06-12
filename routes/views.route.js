@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { skatersController } from "../controllers/skaters.controller.js";
+import { validateToken } from "../middlewares/token.middleware.js";
 
 const router = Router();
 
@@ -11,9 +12,9 @@ router.post("/user", skatersController.postOneSkater);
 router.get("/login", skatersController.getLogin);
 router.post("/auth", skatersController.postLogin);
 
-router.get("/datos", (req, res) => {
-    res.render("datos");
-});
+router.get("/datos", validateToken, skatersController.getDatos);
+router.delete("/eliminar", skatersController.deleteOneSkater);
+
 router.get("/admin", (req, res) => {
     res.render("admin");
 });

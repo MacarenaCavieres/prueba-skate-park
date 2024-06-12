@@ -8,7 +8,7 @@ export const fileConfig = fileUpload({
     responseOnLimit: "El peso del archivo es superior al limite permitido",
 });
 
-export const generateToken = ({ email }) => {
+export const generateToken = (email) => {
     return jwt.sign(
         {
             email,
