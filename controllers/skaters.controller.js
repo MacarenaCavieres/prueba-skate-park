@@ -68,7 +68,13 @@ const postOneSkater = async (req, res) => {
         return res
             .status(201)
             .header("authorization", token)
-            .json({ ok: true, msg: "Usuario creado con éxito", participante: data, token });
+            .json({
+                ok: true,
+                msg: "Usuario creado con éxito",
+                participante: data,
+                token,
+                href: `http://localhost:3000/datos?token=${token}`,
+            });
     } catch (error) {
         console.error(error);
         return res.status(500).json({ ok: false, msg: "Error de servidor" });
@@ -144,6 +150,29 @@ const deleteOneSkater = async (req, res) => {
     }
 };
 
+const putOneSkater = async (req, res) => {
+    const { email, nombre, password, repeat_password, anos_experiencia, especialidad } = req.body;
+
+    if (!email || !nombre || !password || !repeat_password || !anos_experiencia || !especialidad)
+        return res.status(400).json({ ok: false, msg: "Todos los campos obligatorios" });
+
+    if (password !== repeat_password)
+        return res.status(400).json({ ok: false, msg: "Contraseñas no coinciden" });
+
+    try {
+        const skater = await Skaters.findOne(email);
+
+        if (!skater) return res.status(409).json({ ok: false, msg: "Usuario no encontrado" });
+
+        const dataAc = await Skaters.putOne(nombre, password, anos_experiencia, especialidad, email);
+
+        return res.json({ ok: true, msg: "Cuenta actualizada con éxito", participante: dataAc });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ ok: false, msg: "Error de servidor" });
+    }
+};
+
 export const skatersController = {
     getAllSkaters,
     getRegistro,
@@ -152,4 +181,5 @@ export const skatersController = {
     postLogin,
     getDatos,
     deleteOneSkater,
+    putOneSkater,
 };

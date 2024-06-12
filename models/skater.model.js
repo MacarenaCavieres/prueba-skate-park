@@ -35,9 +35,21 @@ const deleteOne = async (email) => {
     return rows[0];
 };
 
+const putOne = async (nombre, password, anos_experiencia, especialidad, email) => {
+    const query = {
+        text: "update skaters set nombre = $1, password = $2, anos_experiencia = $3, especialidad = $4 where email = $5 returning email,nombre,anos_experiencia,especialidad",
+        values: [nombre, password, anos_experiencia, especialidad, email],
+    };
+
+    const { rows } = await pool.query(query);
+
+    return rows[0];
+};
+
 export const Skaters = {
     getAll,
     findOne,
     postOne,
     deleteOne,
+    putOne,
 };

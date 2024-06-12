@@ -14,6 +14,7 @@ router.post("/auth", skatersController.postLogin);
 
 router.get("/datos", validateToken, skatersController.getDatos);
 router.delete("/eliminar", skatersController.deleteOneSkater);
+router.put("/actualizar", skatersController.putOneSkater);
 
 router.get("/admin", (req, res) => {
     res.render("admin");
