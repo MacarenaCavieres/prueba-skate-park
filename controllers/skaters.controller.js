@@ -118,11 +118,23 @@ const getDatos = async (req, res) => {
 };
 
 const deleteOneSkater = async (req, res) => {
-    const { email } = req.body;
+    const { email, password, repeat_password } = req.body;
 
-    if (!email) return res.status(400).json({ ok: false, msg: "Falta campo email" });
+    if (!email || !password || !repeat_password)
+        return res.status(400).json({ ok: false, msg: "Falta algun campo" });
+
+    if (password !== repeat_password)
+        return res.status(400).json({ ok: false, msg: "Contraseñas no coinciden" });
 
     try {
+        const skater = await Skaters.findOne(email);
+
+        if (!skater) return res.status(409).json({ ok: false, msg: "Usuario no encontrado" });
+
+        const match = await bcryptjs.compare(password, skater.password);
+
+        if (!match) return res.status(400).json({ ok: false, msg: "Usuario o contraseña incorrecta" });
+
         await Skaters.deleteOne(email);
 
         return res.json({ ok: true, msg: "Registro eliminado con éxito" });
