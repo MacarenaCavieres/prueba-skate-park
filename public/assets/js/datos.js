@@ -60,8 +60,7 @@ btnActualizar.addEventListener("click", async (e) => {
     };
 
     try {
-        const response = await axios.put("/actualizar", data);
-        console.log(response);
+        await axios.put("/actualizar", data);
         alert("Datos actualizados");
         window.location.href = "/";
     } catch (error) {

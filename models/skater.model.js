@@ -54,7 +54,7 @@ const putEstado = async (id, estado) => {
 
     const { rows } = await pool.query(query);
 
-    return rows;
+    return rows[0];
 };
 
 export const Skaters = {

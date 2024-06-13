@@ -14,15 +14,15 @@
                 </div>
                 <div class="form-group col-12 col-sm-6">
                     <label>Nombre</label>
-                    <input class="form-control m-auto" value="{{skater.nombre}}" name="nombre" />
+                    <input class="form-control m-auto" value="{{skater.nombre}}" name="nombre" required />
                 </div>
                 <div class="form-group col-12 col-sm-6">
                     <label>Password</label>
-                    <input type="password" class="form-control m-auto" name="password" />
+                    <input type="password" class="form-control m-auto" name="password" required />
                 </div>
                 <div class="form-group col-12 col-sm-6">
                     <label>Repita la password</label>
-                    <input type="password" class="form-control m-auto" name="repeat_password" />
+                    <input type="password" class="form-control m-auto" name="repeat_password" required />
                 </div>
                 <div class="form-group col-12 col-sm-6">
                     <label>Años de experiencia</label>
@@ -30,11 +30,17 @@
                         class="form-control m-auto"
                         value="{{skater.anos_experiencia}}"
                         name="anos_experiencia"
+                        required
                     />
                 </div>
                 <div class="form-group col-12 col-sm-6">
                     <label>Especialidad</label>
-                    <input class="form-control m-auto" value="{{skater.especialidad}}" name="especialidad" />
+                    <input
+                        class="form-control m-auto"
+                        value="{{skater.especialidad}}"
+                        name="especialidad"
+                        required
+                    />
                 </div>
             </div>
             <div class="mb-1">
