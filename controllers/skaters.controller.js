@@ -3,10 +3,6 @@ import bcryptjs from "bcryptjs";
 import { Skaters } from "../models/skater.model.js";
 import { generateToken } from "../utils/file.config.js";
 
-import jwt from "jsonwebtoken";
-import "dotenv/config";
-const secretKey = process.env.SK;
-
 const __dirname = import.meta.dirname;
 const pathFile = path.join(__dirname, "../public/assets/imgs");
 
@@ -173,6 +169,39 @@ const putOneSkater = async (req, res) => {
     }
 };
 
+const postAdmin = (req, res) => {
+    const email = "admin@admin.com";
+
+    const token = generateToken(email);
+    return res.json({
+        ok: true,
+        msg: "Generado token de admin",
+        token,
+        href: `http://localhost:3000/admin?token=${token}`,
+    });
+};
+
+const getAdmin = async (req, res) => {
+    const data = await Skaters.getAll();
+
+    return res.render("admin", { data });
+};
+
+const putOneEstado = async (req, res) => {
+    try {
+        const { id, estado } = req.body;
+
+        if (!id) return res.status(400).json({ ok: false, msg: "Faltan datos para actualizar el registro" });
+
+        const skater = await Skaters.putEstado(id, estado);
+
+        return res.json({ ok: true, msg: "Cuenta actualizada con éxito", participante: skater });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ ok: false, msg: "Error de servidor" });
+    }
+};
+
 export const skatersController = {
     getAllSkaters,
     getRegistro,
@@ -182,4 +211,7 @@ export const skatersController = {
     getDatos,
     deleteOneSkater,
     putOneSkater,
+    postAdmin,
+    getAdmin,
+    putOneEstado,
 };

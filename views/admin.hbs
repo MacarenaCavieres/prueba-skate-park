@@ -1,10 +1,10 @@
-<h1>Skate Park</h1>
+{{! <h1>Skate Park</h1>
 
 <div class="py-4">
     <h2>Administración</h2>
     <hr class="w-50" />
 
-    <table class="table w-50 m-auto">
+    <table class="table table-dark w-50 m-auto">
         <thead>
             <tr>
                 <th scope="col">#</th>
@@ -42,4 +42,50 @@
             </tr>
         </tbody>
     </table>
+</div> }}
+
+<h1>Skate Park</h1>
+
+<div class="py-4">
+    <h2>Administración</h2>
+    <hr class="w-50" />
+
+    <table class="table table-dark w-50 m-auto">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Foto</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Años de experiencia</th>
+                <th scope="col">Especialidad</th>
+                <th scope="col">Estado</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#if data}}
+
+                {{#each data}}
+
+                    <tr>
+                        <th scope="row">{{this.id}}</th>
+                        <td><div><img src={{this.foto}} alt="{{this.nombre}}" class="img" /></div></td>
+                        <td>{{this.nombre}}</td>
+                        <td>{{this.anos_experiencia}}</td>
+                        <td>{{this.especialidad}}</td>
+                        {{#if estado}}
+                            <td><input type="checkbox" checked class="check" id="{{this.id}}" /></td>
+                        {{else}}
+                            <td><input type="checkbox" class="check" id="{{this.id}}" /></td>
+                        {{/if}}
+                    </tr>
+
+                {{/each}}
+
+            {{/if}}
+
+        </tbody>
+    </table>
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="./assets/js/admin.js"></script>

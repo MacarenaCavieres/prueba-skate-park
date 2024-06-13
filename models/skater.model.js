@@ -46,10 +46,22 @@ const putOne = async (nombre, password, anos_experiencia, especialidad, email) =
     return rows[0];
 };
 
+const putEstado = async (id, estado) => {
+    const query = {
+        text: "update skaters set estado = $2 where id = $1 returning id, email, nombre, estado ",
+        values: [id, estado],
+    };
+
+    const { rows } = await pool.query(query);
+
+    return rows;
+};
+
 export const Skaters = {
     getAll,
     findOne,
     postOne,
     deleteOne,
     putOne,
+    putEstado,
 };
