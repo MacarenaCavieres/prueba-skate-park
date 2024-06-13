@@ -13,5 +13,3 @@ CREATE TABLE skaters (
 	
 select * from skaters;
 
-insert into skaters (email,nombre,password,anos_experiencia,especialidad,foto,estado) values
-('tony@mail.com', 'Tony Hawk', '123', 12, 'Kickflip', '../imgs/tony.jpg', true);
